@@ -65,20 +65,13 @@ export const CombinedOutletsTable = ({
     outlet.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Auto-select all outlets when they appear
+  // Auto-select only PJP outlets when they appear
   React.useEffect(() => {
     if (inPJPOutlets.length > 0) {
       const allInPJPIds = inPJPOutlets.map(outlet => outlet.id);
       onInPJPSelectionChange(allInPJPIds);
     }
   }, [inPJPOutlets.length, onInPJPSelectionChange]);
-
-  React.useEffect(() => {
-    if (notInPJPOutlets.length > 0) {
-      const allNotInPJPIds = notInPJPOutlets.map(outlet => outlet.id);
-      onNotInPJPSelectionChange(allNotInPJPIds);
-    }
-  }, [notInPJPOutlets.length, onNotInPJPSelectionChange]);
 
   const handleSelectAllPJP = () => {
     if (selectedInPJPOutlets.length === inPJPOutlets.length) {
