@@ -69,11 +69,11 @@ export const OutletsTable = ({
   // Auto-select all outlets when they appear
   useAutoSelectOutlets(outlets, onSelectionChange);
 
-  // Only show outlets that are not in PJP
+  // Only show outlets that are in PJP
   const filteredOutlets = outlets.filter(outlet => {
     const matchesSearch = outlet.name.toLowerCase().includes(searchTerm.toLowerCase());
-    const isNotInPJP = outlet.notInPJP;
-    return matchesSearch && isNotInPJP;
+    const isInPJP = !outlet.notInPJP;
+    return matchesSearch && isInPJP;
   });
 
   const handleSelectAll = () => {
@@ -110,7 +110,7 @@ export const OutletsTable = ({
     <Card className="bg-card border-border/50 shadow-card">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-foreground">Outlets Not in PJP (Ready to Call)</h3>
+          <h3 className="text-lg font-semibold text-foreground">Outlets in todays PJP</h3>
           
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -118,7 +118,7 @@ export const OutletsTable = ({
                 <PopoverTrigger asChild>
                   <Button variant="outline" size="sm" className="flex items-center gap-2">
                     <CalendarIcon className="h-4 w-4" />
-                    {format(selectedDate, "MMM dd")}
+                    Today
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="end">
@@ -232,7 +232,7 @@ export const OutletsTable = ({
         </div>
 
         <div className="border border-border/50 rounded-lg overflow-hidden">
-          <div className="bg-muted/30 px-4 py-3 grid grid-cols-10 gap-4 text-sm font-medium">
+          <div className="bg-muted/30 px-4 py-3 grid grid-cols-8 gap-4 text-sm font-medium">
             <div className="col-span-1">
               <Checkbox
                 checked={selectedOutlets.length === filteredOutlets.length && filteredOutlets.length > 0}
@@ -241,11 +241,9 @@ export const OutletsTable = ({
               />
             </div>
             <div className="col-span-2">Outlet</div>
-            <div className="col-span-1">Phone(s)</div>
-            <div className="col-span-1">Window</div>
+            <div className="col-span-1">Phone</div>
+            <div className="col-span-1">Shop Open Hours</div>
             <div className="col-span-1">Expected Value</div>
-            <div className="col-span-1">Language</div>
-            <div className="col-span-1">WA Opt-in</div>
             <div className="col-span-1">Last Order</div>
             <div className="col-span-1">Priority</div>
           </div>
@@ -254,7 +252,7 @@ export const OutletsTable = ({
             {filteredOutlets.map((outlet) => (
               <div
                 key={outlet.id}
-                className={`px-4 py-3 grid grid-cols-10 gap-4 items-center hover:bg-muted/20 transition-colors cursor-pointer ${
+                className={`px-4 py-3 grid grid-cols-8 gap-4 items-center hover:bg-muted/20 transition-colors cursor-pointer ${
                   selectedOutlets.includes(outlet.id) ? 'bg-primary/5 border-l-2 border-l-primary' : ''
                 }`}
                 onClick={() => handleSelectOutlet(outlet.id)}
@@ -272,9 +270,9 @@ export const OutletsTable = ({
                   </div>
                 </div>
                 <div className="col-span-1">
-                  <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1 text-sm">
                     <Phone className="h-3 w-3 text-muted-foreground" />
-                    <span className="text-sm">{outlet.phones.length}</span>
+                    {outlet.phones[0]}
                   </div>
                 </div>
                 <div className="col-span-1">
@@ -288,29 +286,6 @@ export const OutletsTable = ({
                     <DollarSign className="h-3 w-3 text-muted-foreground" />
                     ₹{outlet.expectedValue.toLocaleString()}
                   </div>
-                </div>
-                <div className="col-span-1">
-                  <Select
-                    value={outlet.language}
-                    onValueChange={(value) => handleLanguageChange(outlet.id, value)}
-                  >
-                    <SelectTrigger className="h-8 text-xs">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="hindi">Hindi</SelectItem>
-                      <SelectItem value="english">English</SelectItem>
-                      <SelectItem value="telugu">Telugu</SelectItem>
-                      <SelectItem value="tamil">Tamil</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="col-span-1">
-                  {outlet.whatsappOptIn ? (
-                    <MessageSquare className="h-4 w-4 text-success" />
-                  ) : (
-                    <MessageSquare className="h-4 w-4 text-muted-foreground" />
-                  )}
                 </div>
                 <div className="col-span-1">
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">

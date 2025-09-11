@@ -113,7 +113,7 @@ export const SummaryBar = ({
               className="flex items-center gap-2 px-8"
             >
               <Play className="h-4 w-4" />
-              {isLoading ? "Launching..." : "Launch Operation"}
+              {isLoading ? "Starting..." : "Start Calling"}
             </Button>
           </div>
         </div>
