@@ -2,7 +2,7 @@ import { useState } from "react";
 import { KPICards } from "./KPICards";
 import { SourceSection } from "./SourceSection";
 import { AbsentRepsTable } from "./AbsentRepsTable";
-import { OutletsTable } from "./OutletsTable";
+import { OutletsTable } from "./OutletsTableFixed";
 import { OutletsNotInPJPTable } from "./OutletsNotInPJPTable";
 import { CallSettingsPanel } from "./CallSettingsPanel";
 import { SummaryBar } from "./SummaryBar";
