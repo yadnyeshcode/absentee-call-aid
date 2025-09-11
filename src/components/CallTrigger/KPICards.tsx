@@ -63,23 +63,22 @@ export const KPICards = ({
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {cards.map((card, index) => (
           <Card key={card.title} className="bg-card border-border/50 shadow-card hover:shadow-medium transition-all duration-200">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className={`p-2.5 rounded-lg ${card.bgColor}`}>
-                  <card.icon className={`h-5 w-5 ${card.color}`} />
+            <div className="p-4">
+              <div className="flex items-center gap-3 mb-3">
+                <div className={`p-2 rounded-lg ${card.bgColor}`}>
+                  <card.icon className={`h-4 w-4 ${card.color}`} />
                 </div>
-              </div>
-              
-              <div className="space-y-2">
-                <p className="text-sm font-medium text-muted-foreground">
-                  {card.title}
-                </p>
-                <div className="text-2xl font-semibold text-foreground">
-                  {typeof card.value === 'string' ? card.value : card.value}
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-medium text-muted-foreground truncate">
+                    {card.title}
+                  </p>
+                  <div className="text-lg font-semibold text-foreground">
+                    {typeof card.value === 'string' ? card.value : card.value}
+                  </div>
                 </div>
               </div>
             </div>
@@ -89,8 +88,8 @@ export const KPICards = ({
 
       {/* What-if slider */}
       <Card className="bg-card border-border/50 shadow-card">
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-4">
+        <div className="p-4">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <h3 className="text-sm font-medium text-foreground">What-if Analysis</h3>
               <TooltipProvider>
@@ -109,7 +108,7 @@ export const KPICards = ({
             </div>
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-3">
             <Slider
               value={[recoveryRate]}
               onValueChange={handleSliderChange}

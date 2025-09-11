@@ -12,7 +12,6 @@ interface SalesRep {
   territory: string;
   todayOutlets: number;
   estimatedValue: number;
-  defaultLanguage: string;
   pjpToday: Array<{
     outlet: string;
     phone: string;
@@ -129,7 +128,7 @@ export const AbsentRepsTable = ({
         </div>
 
         <div className="border border-border/50 rounded-lg overflow-hidden">
-          <div className="bg-muted/30 px-4 py-3 grid grid-cols-12 gap-4 text-sm font-medium">
+          <div className="bg-muted/30 px-4 py-3 grid grid-cols-10 gap-4 text-sm font-medium">
             <div className="col-span-1 flex items-center">
               <Checkbox
                 checked={selectedReps.length === sortedReps.length && sortedReps.length > 0}
@@ -149,16 +148,13 @@ export const AbsentRepsTable = ({
             <div className="col-span-2">
               <SortButton field="estimatedValue">Est. Value</SortButton>
             </div>
-            <div className="col-span-2">
-              <SortButton field="defaultLanguage">Default Language</SortButton>
-            </div>
           </div>
 
           <div className="divide-y divide-border/50">
             {sortedReps.map((rep) => (
               <div
                 key={rep.id}
-                className={`px-4 py-4 grid grid-cols-12 gap-4 items-center hover:bg-muted/20 transition-colors cursor-pointer ${
+                className={`px-4 py-4 grid grid-cols-10 gap-4 items-center hover:bg-muted/20 transition-colors cursor-pointer ${
                   selectedReps.includes(rep.id) ? 'bg-primary/5 border-l-2 border-l-primary' : ''
                 }`}
                 onClick={() => handleSelectRep(rep.id)}
@@ -196,11 +192,6 @@ export const AbsentRepsTable = ({
                   <div className="font-medium text-foreground">
                     ₹{rep.estimatedValue.toLocaleString()}
                   </div>
-                </div>
-                <div className="col-span-2">
-                  <Badge variant="secondary" className="text-xs">
-                    {rep.defaultLanguage}
-                  </Badge>
                 </div>
               </div>
             ))}

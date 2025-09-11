@@ -229,13 +229,13 @@ export const OutletsTable = ({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <AlertTriangle className="h-4 w-4" />
-                      Excluded: {excludedOutlets.length}
-                    </div>
+                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                       <AlertTriangle className="h-4 w-4" />
+                       Not in PJP: {excludedOutlets.length}
+                     </div>
                   </TooltipTrigger>
                   <TooltipContent>
-                    <p>Outlets excluded due to DND, invalid data, or being outside time window</p>
+                    <p>Outlets not in PJP due to DND, invalid data, or being outside time window</p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
@@ -354,7 +354,7 @@ export const OutletsTable = ({
             {excludedOutlets.length > 0 && (
               <>
                 <div className="px-4 py-2 bg-muted/50 text-sm font-medium text-muted-foreground border-t-2 border-border">
-                  Excluded Outlets ({excludedOutlets.length})
+                  Outlets Not in PJP ({excludedOutlets.length})
                 </div>
                 {excludedOutlets.map((outlet) => {
                   const excludeInfo = getExcludeReason(outlet);

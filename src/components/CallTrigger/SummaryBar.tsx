@@ -58,7 +58,7 @@ export const SummaryBar = ({
                     onClick={onShowExcluded}
                     className="h-auto p-0 text-warning hover:text-warning/80"
                   >
-                    Excluded: {excludedOutlets}
+                    Not in PJP: {excludedOutlets}
                   </Button>
                 </>
               )}

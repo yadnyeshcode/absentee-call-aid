@@ -16,7 +16,6 @@ const mockSalesReps = [
     territory: "North Delhi",
     todayOutlets: 5,
     estimatedValue: 25000,
-    defaultLanguage: "Hindi",
     pjpToday: [
       { outlet: "Metro Store", phone: "+91-9876543210", time: "09:00", location: "Connaught Place", expectedValue: 5000, status: "missed" as const },
       { outlet: "Big Bazaar", phone: "+91-9876543211", time: "11:30", location: "Karol Bagh", expectedValue: 7500, status: "pending" as const },
@@ -31,7 +30,6 @@ const mockSalesReps = [
     territory: "South Mumbai",
     todayOutlets: 4,
     estimatedValue: 18000,
-    defaultLanguage: "English",
     pjpToday: [
       { outlet: "D-Mart", phone: "+91-9876543215", time: "10:00", location: "Bandra West", expectedValue: 6000, status: "missed" as const },
       { outlet: "Hypercity", phone: "+91-9876543216", time: "13:00", location: "Malad", expectedValue: 4500, status: "pending" as const },
@@ -45,7 +43,6 @@ const mockSalesReps = [
     territory: "East Bangalore", 
     todayOutlets: 4,
     estimatedValue: 22000,
-    defaultLanguage: "Telugu",
     pjpToday: [
       { outlet: "Fresh@", phone: "+91-9876543219", time: "09:30", location: "Whitefield", expectedValue: 5500, status: "pending" as const },
       { outlet: "Total Mall", phone: "+91-9876543220", time: "12:00", location: "Sarjapur Road", expectedValue: 6000, status: "pending" as const },
@@ -66,7 +63,7 @@ const generateOutlets = (salesReps: any[], selectedReps: string[]) => {
         phones: [outlet.phone],
         timeWindow: `${outlet.time}-${(parseInt(outlet.time.split(':')[0]) + 1).toString().padStart(2, '0')}:00`,
         expectedValue: outlet.expectedValue,
-        language: rep.defaultLanguage.toLowerCase(),
+        language: ['hindi', 'english', 'telugu'][Math.floor(Math.random() * 3)],
         whatsappOptIn: Math.random() > 0.3,
         dndStatus: Math.random() > 0.8,
         lastOrder: `${Math.floor(Math.random() * 30) + 1} days ago`,
@@ -164,12 +161,12 @@ export const CallTriggerDashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-32">
       <div className="container mx-auto p-6 space-y-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+        <div className="text-center mb-6">
+          <h1 className="text-2xl font-bold text-foreground mb-1">
             Call Setup — Absent Reps
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Launch AI calls to outlets for absent sales representatives and recover lost business
+          <p className="text-sm text-muted-foreground max-w-xl mx-auto">
+            Trigger AI calls to recover revenue from missed outlet visits
           </p>
         </div>
 
