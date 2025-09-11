@@ -14,27 +14,23 @@ import {
 
 interface SummaryBarProps {
   selectedOutlets: number;
-  excludedOutlets: number;
   estimatedCost: number;
   dialLaunchETA: string;
   operationFinishETA: string;
   onLaunch?: () => void;
   onSimulate?: () => void;
   onExport?: () => void;
-  onShowExcluded?: () => void;
   isLoading?: boolean;
 }
 
 export const SummaryBar = ({
   selectedOutlets,
-  excludedOutlets,
   estimatedCost,
   dialLaunchETA,
   operationFinishETA,
   onLaunch,
   onSimulate,
   onExport,
-  onShowExcluded,
   isLoading = false
 }: SummaryBarProps) => {
   return (
@@ -48,20 +44,6 @@ export const SummaryBar = ({
               <span className="font-semibold text-foreground">
                 {selectedOutlets.toLocaleString()} outlets to call
               </span>
-              
-              {excludedOutlets > 0 && (
-                <>
-                  <span className="text-muted-foreground">•</span>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={onShowExcluded}
-                    className="h-auto p-0 text-warning hover:text-warning/80"
-                  >
-                    Not in PJP: {excludedOutlets}
-                  </Button>
-                </>
-              )}
             </div>
 
             <div className="flex items-center gap-4 text-sm text-muted-foreground">

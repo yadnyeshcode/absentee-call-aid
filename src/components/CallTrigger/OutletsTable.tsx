@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,14 +14,12 @@ import {
   Clock, 
   DollarSign, 
   Languages, 
-  MessageSquare, 
-  ShieldOff,
+  MessageSquare,
   ShoppingCart,
   Star,
   Calendar as CalendarIcon,
   Search,
   Filter,
-  AlertTriangle,
   Info
 } from "lucide-react";
 import { format } from "date-fns";
@@ -34,12 +32,10 @@ interface Outlet {
   expectedValue: number;
   language: string;
   whatsappOptIn: boolean;
-  dndStatus: boolean;
   lastOrder: string;
   priority: 'high' | 'medium' | 'low';
   repId: string;
-  excluded?: boolean;
-  excludeReason?: string;
+  notInPJP: boolean;
 }
 
 interface OutletsTableProps {
@@ -48,6 +44,16 @@ interface OutletsTableProps {
   onSelectionChange: (selectedOutlets: string[]) => void;
   onOutletUpdate?: (outletId: string, updates: Partial<Outlet>) => void;
 }
+
+// Auto-select all outlets when new outlets appear
+const useAutoSelectOutlets = (outlets: Outlet[], onSelectionChange: (selected: string[]) => void) => {
+  React.useEffect(() => {
+    if (outlets.length > 0) {
+      const allOutletIds = outlets.map(outlet => outlet.id);
+      onSelectionChange(allOutletIds);
+    }
+  }, [outlets.length]);
+};
 
 export const OutletsTable = ({
   outlets,
@@ -60,21 +66,21 @@ export const OutletsTable = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [showFilters, setShowFilters] = useState(false);
 
+  // Auto-select all outlets when they appear
+  useAutoSelectOutlets(outlets, onSelectionChange);
+
+  // Only show outlets that are not in PJP
   const filteredOutlets = outlets.filter(outlet => {
     const matchesSearch = outlet.name.toLowerCase().includes(searchTerm.toLowerCase());
-    // Add time window filtering logic here
-    return matchesSearch;
+    const isNotInPJP = outlet.notInPJP;
+    return matchesSearch && isNotInPJP;
   });
 
-  const validOutlets = filteredOutlets.filter(outlet => !outlet.excluded);
-  const excludedOutlets = filteredOutlets.filter(outlet => outlet.excluded);
-
-  const handleSelectAll = (includeExcluded = false) => {
-    const outletsToSelect = includeExcluded ? filteredOutlets : validOutlets;
-    if (selectedOutlets.length === outletsToSelect.length) {
+  const handleSelectAll = () => {
+    if (selectedOutlets.length === filteredOutlets.length) {
       onSelectionChange([]);
     } else {
-      onSelectionChange(outletsToSelect.map(outlet => outlet.id));
+      onSelectionChange(filteredOutlets.map(outlet => outlet.id));
     }
   };
 
@@ -99,18 +105,12 @@ export const OutletsTable = ({
     }
   };
 
-  const getExcludeReason = (outlet: Outlet) => {
-    if (outlet.dndStatus) return { reason: 'DND', color: 'destructive' };
-    if (!outlet.phones.length || outlet.phones.every(p => !p)) return { reason: 'Invalid Phone', color: 'destructive' };
-    // Add more exclusion logic
-    return { reason: 'Outside Window', color: 'warning' };
-  };
 
   return (
     <Card className="bg-card border-border/50 shadow-card">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-foreground">Outlets for Selected Reps</h3>
+          <h3 className="text-lg font-semibold text-foreground">Outlets Not in PJP (Ready to Call)</h3>
           
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
@@ -215,44 +215,28 @@ export const OutletsTable = ({
             <Button
               variant="outline"
               size="sm"
-              onClick={() => handleSelectAll(false)}
+              onClick={handleSelectAll}
               className="flex items-center gap-2"
             >
               <Checkbox
-                checked={selectedOutlets.length === validOutlets.length && validOutlets.length > 0}
+                checked={selectedOutlets.length === filteredOutlets.length && filteredOutlets.length > 0}
                 className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
               />
-              Select Valid ({validOutlets.length})
+              Select All ({filteredOutlets.length})
             </Button>
-
-            {excludedOutlets.length > 0 && (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                       <AlertTriangle className="h-4 w-4" />
-                       Not in PJP: {excludedOutlets.length}
-                     </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Outlets not in PJP due to DND, invalid data, or being outside time window</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            )}
           </div>
 
           <div className="text-sm text-muted-foreground">
-            {selectedOutlets.length} of {validOutlets.length} selected
+            {selectedOutlets.length} of {filteredOutlets.length} selected
           </div>
         </div>
 
         <div className="border border-border/50 rounded-lg overflow-hidden">
-          <div className="bg-muted/30 px-4 py-3 grid grid-cols-12 gap-4 text-sm font-medium">
+          <div className="bg-muted/30 px-4 py-3 grid grid-cols-10 gap-4 text-sm font-medium">
             <div className="col-span-1">
               <Checkbox
-                checked={selectedOutlets.length === validOutlets.length && validOutlets.length > 0}
-                onCheckedChange={() => handleSelectAll(false)}
+                checked={selectedOutlets.length === filteredOutlets.length && filteredOutlets.length > 0}
+                onCheckedChange={handleSelectAll}
                 className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
               />
             </div>
@@ -262,16 +246,15 @@ export const OutletsTable = ({
             <div className="col-span-1">Expected Value</div>
             <div className="col-span-1">Language</div>
             <div className="col-span-1">WA Opt-in</div>
-            <div className="col-span-1">DND</div>
             <div className="col-span-1">Last Order</div>
-            <div className="col-span-2">Priority</div>
+            <div className="col-span-1">Priority</div>
           </div>
 
           <div className="divide-y divide-border/50 max-h-96 overflow-y-auto">
-            {validOutlets.map((outlet) => (
+            {filteredOutlets.map((outlet) => (
               <div
                 key={outlet.id}
-                className={`px-4 py-3 grid grid-cols-12 gap-4 items-center hover:bg-muted/20 transition-colors cursor-pointer ${
+                className={`px-4 py-3 grid grid-cols-10 gap-4 items-center hover:bg-muted/20 transition-colors cursor-pointer ${
                   selectedOutlets.includes(outlet.id) ? 'bg-primary/5 border-l-2 border-l-primary' : ''
                 }`}
                 onClick={() => handleSelectOutlet(outlet.id)}
@@ -330,19 +313,12 @@ export const OutletsTable = ({
                   )}
                 </div>
                 <div className="col-span-1">
-                  {outlet.dndStatus ? (
-                    <ShieldOff className="h-4 w-4 text-destructive" />
-                  ) : (
-                    <div className="h-4 w-4" />
-                  )}
-                </div>
-                <div className="col-span-1">
                   <div className="flex items-center gap-1 text-xs text-muted-foreground">
                     <ShoppingCart className="h-3 w-3" />
                     {outlet.lastOrder}
                   </div>
                 </div>
-                <div className="col-span-2">
+                <div className="col-span-1">
                   <Badge variant="secondary" className={`text-xs ${getPriorityColor(outlet.priority)}`}>
                     <Star className="h-3 w-3 mr-1" />
                     {outlet.priority}
@@ -350,39 +326,6 @@ export const OutletsTable = ({
                 </div>
               </div>
             ))}
-
-            {excludedOutlets.length > 0 && (
-              <>
-                <div className="px-4 py-2 bg-muted/50 text-sm font-medium text-muted-foreground border-t-2 border-border">
-                  Outlets Not in PJP ({excludedOutlets.length})
-                </div>
-                {excludedOutlets.map((outlet) => {
-                  const excludeInfo = getExcludeReason(outlet);
-                  return (
-                    <div
-                      key={outlet.id}
-                      className="px-4 py-3 grid grid-cols-12 gap-4 items-center bg-muted/20 opacity-60"
-                    >
-                      <div className="col-span-1">
-                        <Checkbox disabled className="opacity-50" />
-                      </div>
-                      <div className="col-span-2">
-                        <div className="flex items-center gap-2">
-                          <Building className="h-4 w-4 text-muted-foreground" />
-                          <span className="font-medium text-foreground">{outlet.name}</span>
-                        </div>
-                      </div>
-                      <div className="col-span-9 flex items-center justify-end">
-                        <Badge variant="destructive" className="text-xs">
-                          <AlertTriangle className="h-3 w-3 mr-1" />
-                          {excludeInfo.reason}
-                        </Badge>
-                      </div>
-                    </div>
-                  );
-                })}
-              </>
-            )}
           </div>
         </div>
 
@@ -390,10 +333,10 @@ export const OutletsTable = ({
           <div className="text-center py-12">
             <Building className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
             <p className="text-lg font-medium text-muted-foreground mb-2">
-              No outlets found
+              No outlets not in PJP
             </p>
             <p className="text-sm text-muted-foreground">
-              Select some sales reps to see their outlets
+              Select sales reps to see outlets not in their PJP that are ready for calls
             </p>
           </div>
         )}

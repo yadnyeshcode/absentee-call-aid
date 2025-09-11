@@ -52,7 +52,7 @@ const mockSalesReps = [
   }
 ];
 
-// Generate mock outlets from sales reps
+// Generate mock outlets from sales reps (only those not in PJP)
 const generateOutlets = (salesReps: any[], selectedReps: string[]) => {
   return salesReps
     .filter(rep => selectedReps.includes(rep.id))
@@ -65,11 +65,10 @@ const generateOutlets = (salesReps: any[], selectedReps: string[]) => {
         expectedValue: outlet.expectedValue,
         language: ['hindi', 'english', 'telugu'][Math.floor(Math.random() * 3)],
         whatsappOptIn: Math.random() > 0.3,
-        dndStatus: Math.random() > 0.8,
         lastOrder: `${Math.floor(Math.random() * 30) + 1} days ago`,
         priority: ['high', 'medium', 'low'][Math.floor(Math.random() * 3)] as 'high' | 'medium' | 'low',
         repId: rep.id,
-        excluded: Math.random() > 0.8
+        notInPJP: true // All generated outlets are not in PJP
       }))
     );
 };
@@ -87,10 +86,8 @@ export const CallTriggerDashboard = () => {
   const absentCount = mockSalesReps.length;
   const totalRevenue = mockSalesReps.reduce((sum, rep) => sum + rep.estimatedValue, 0);
   
-  // Generate outlets for selected reps
+  // Generate outlets for selected reps (only not in PJP)
   const outlets = generateOutlets(mockSalesReps, selectedReps);
-  const validOutlets = outlets.filter(outlet => !outlet.excluded);
-  const excludedOutlets = outlets.filter(outlet => outlet.excluded);
   
   // Calculate summary metrics
   const selectedOutletsCount = selectedOutlets.length;
@@ -140,12 +137,6 @@ export const CallTriggerDashboard = () => {
     });
   };
 
-  const handleShowExcluded = () => {
-    toast({
-      title: "Excluded Outlets",
-      description: `${excludedOutlets.length} outlets are excluded from the campaign.`,
-    });
-  };
 
   if (isCallsActive) {
     return (
@@ -203,14 +194,12 @@ export const CallTriggerDashboard = () => {
 
       <SummaryBar
         selectedOutlets={selectedOutletsCount}
-        excludedOutlets={excludedOutlets.length}
         estimatedCost={estimatedCost}
         dialLaunchETA={dialLaunchETA}
         operationFinishETA={operationFinishETA}
         onLaunch={handleLaunch}
         onSimulate={handleSimulate}
         onExport={handleExport}
-        onShowExcluded={handleShowExcluded}
       />
     </div>
   );
