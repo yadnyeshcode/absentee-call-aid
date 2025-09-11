@@ -14,7 +14,9 @@ import {
   Star,
   Search,
   ChevronDown,
-  ChevronRight
+  ChevronRight,
+  AlertCircle,
+  Plus
 } from "lucide-react";
 
 interface Outlet {
@@ -91,18 +93,22 @@ export const OutletsNotInPJPTable = ({
   };
 
   return (
-    <Card className="bg-card border-border/50 shadow-card">
+    <Card className="bg-card border-l-4 border-l-amber-500 border-border/50 shadow-card">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CollapsibleTrigger asChild>
           <div className="p-6 pb-0 cursor-pointer">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-foreground flex items-center gap-2">
-                {isOpen ? <ChevronDown className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
-                Outlets not in today's PJP
-                <Badge variant="secondary" className="ml-2">
-                  {filteredOutlets.length}
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  {isOpen ? <ChevronDown className="h-5 w-5 text-amber-600" /> : <ChevronRight className="h-5 w-5 text-amber-600" />}
+                  <AlertCircle className="h-5 w-5 text-amber-600" />
+                  <h3 className="text-lg font-semibold text-foreground">Outlets not in today's PJP</h3>
+                </div>
+                <Badge variant="secondary" className="bg-amber-50 text-amber-700 border-amber-200">
+                  <Plus className="h-3 w-3 mr-1" />
+                  Additional ({filteredOutlets.length})
                 </Badge>
-              </h3>
+              </div>
               <Button variant="outline" size="sm">
                 {isOpen ? "Collapse" : "Expand"}
               </Button>
@@ -143,15 +149,16 @@ export const OutletsNotInPJPTable = ({
               </div>
             </div>
 
-            <div className="border border-border/50 rounded-lg overflow-hidden">
-              <div className="bg-muted/30 px-4 py-3 grid grid-cols-8 gap-4 text-sm font-medium">
+            <div className="border border-amber-200 rounded-lg overflow-hidden bg-amber-50/30">
+              <div className="bg-amber-50 px-4 py-3 grid grid-cols-9 gap-4 text-sm font-medium text-amber-800">
                 <div className="col-span-1">
                   <Checkbox
                     checked={selectedOutlets.length === filteredOutlets.length && filteredOutlets.length > 0}
                     onCheckedChange={handleSelectAll}
-                    className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                    className="data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
                   />
                 </div>
+                <div className="col-span-1">Status</div>
                 <div className="col-span-2">Outlet</div>
                 <div className="col-span-1">Phone</div>
                 <div className="col-span-1">Shop Open Hours</div>
@@ -164,16 +171,22 @@ export const OutletsNotInPJPTable = ({
                 {filteredOutlets.map((outlet) => (
                   <div
                     key={outlet.id}
-                    className={`px-4 py-3 grid grid-cols-8 gap-4 items-center hover:bg-muted/20 transition-colors cursor-pointer ${
-                      selectedOutlets.includes(outlet.id) ? 'bg-primary/5 border-l-2 border-l-primary' : ''
+                    className={`px-4 py-3 grid grid-cols-9 gap-4 items-center hover:bg-amber-50/50 transition-colors cursor-pointer ${
+                      selectedOutlets.includes(outlet.id) ? 'bg-amber-50 border-l-2 border-l-amber-500' : ''
                     }`}
                     onClick={() => handleSelectOutlet(outlet.id)}
                   >
                     <div className="col-span-1">
                       <Checkbox
                         checked={selectedOutlets.includes(outlet.id)}
-                        className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                        className="data-[state=checked]:bg-amber-600 data-[state=checked]:border-amber-600"
                       />
+                    </div>
+                    <div className="col-span-1">
+                      <Badge variant="secondary" className="bg-amber-100 text-amber-700 border-amber-300">
+                        <AlertCircle className="h-3 w-3 mr-1" />
+                        Not PJP
+                      </Badge>
                     </div>
                     <div className="col-span-2">
                       <div className="flex items-center gap-2">

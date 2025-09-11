@@ -14,7 +14,8 @@ import {
   ShoppingCart,
   Star,
   Calendar as CalendarIcon,
-  Filter
+  CheckCircle2,
+  Target
 } from "lucide-react";
 import { format } from "date-fns";
 
@@ -83,10 +84,19 @@ export const OutletsTable = ({
   };
 
   return (
-    <Card className="bg-card border-border/50 shadow-card">
+    <Card className="bg-card border-l-4 border-l-emerald-500 border-border/50 shadow-card">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-foreground">Outlets in todays PJP</h3>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <CheckCircle2 className="h-5 w-5 text-emerald-600" />
+              <h3 className="text-lg font-semibold text-foreground">Outlets in todays PJP</h3>
+            </div>
+            <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 border-emerald-200">
+              <Target className="h-3 w-3 mr-1" />
+              Scheduled
+            </Badge>
+          </div>
           
           <div className="flex items-center gap-4">
             <Popover>
@@ -127,9 +137,10 @@ export const OutletsTable = ({
           </div>
         </div>
 
-        <div className="border border-border/50 rounded-lg overflow-hidden">
-          <div className="bg-muted/30 px-4 py-3 grid grid-cols-8 gap-4 text-sm font-medium">
+        <div className="border border-emerald-200 rounded-lg overflow-hidden bg-emerald-50/30">
+          <div className="bg-emerald-50 px-4 py-3 grid grid-cols-9 gap-4 text-sm font-medium text-emerald-800">
             <div className="col-span-1"></div>
+            <div className="col-span-1">Status</div>
             <div className="col-span-2">Outlet</div>
             <div className="col-span-1">Phone</div>
             <div className="col-span-1">Shop Open Hours</div>
@@ -142,16 +153,22 @@ export const OutletsTable = ({
             {filteredOutlets.map((outlet) => (
               <div
                 key={outlet.id}
-                className={`px-4 py-3 grid grid-cols-8 gap-4 items-center hover:bg-muted/20 transition-colors cursor-pointer ${
-                  selectedOutlets.includes(outlet.id) ? 'bg-primary/5 border-l-2 border-l-primary' : ''
+                className={`px-4 py-3 grid grid-cols-9 gap-4 items-center hover:bg-emerald-50/50 transition-colors cursor-pointer ${
+                  selectedOutlets.includes(outlet.id) ? 'bg-emerald-50 border-l-2 border-l-emerald-500' : ''
                 }`}
                 onClick={() => handleSelectOutlet(outlet.id)}
               >
                 <div className="col-span-1">
                   <Checkbox
                     checked={selectedOutlets.includes(outlet.id)}
-                    className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
+                    className="data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600"
                   />
+                </div>
+                <div className="col-span-1">
+                  <Badge variant="secondary" className="bg-emerald-100 text-emerald-700 border-emerald-300">
+                    <CheckCircle2 className="h-3 w-3 mr-1" />
+                    PJP
+                  </Badge>
                 </div>
                 <div className="col-span-2">
                   <div className="flex items-center gap-2">
