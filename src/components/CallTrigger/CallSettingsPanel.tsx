@@ -99,7 +99,7 @@ export const CallSettingsPanel = ({ onSettingsChange }: CallSettingsPanelProps) 
               <div className="space-y-2">
                 <Label className="text-sm font-medium flex items-center gap-2">
                   <Languages className="h-4 w-4" />
-                  Agent Language
+                  Agent
                 </Label>
                 <Select value={settings.agentLanguage} onValueChange={(value) => updateSetting('agentLanguage', value)}>
                   <SelectTrigger>
@@ -107,10 +107,10 @@ export const CallSettingsPanel = ({ onSettingsChange }: CallSettingsPanelProps) 
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="auto">Auto-detect</SelectItem>
-                    <SelectItem value="hindi">Hindi Agent</SelectItem>
-                    <SelectItem value="english">English Agent</SelectItem>
-                    <SelectItem value="telugu">Telugu Agent</SelectItem>
-                    <SelectItem value="tamil">Tamil Agent</SelectItem>
+                    <SelectItem value="vanshika-hindi">Vanshika - Hindi</SelectItem>
+                    <SelectItem value="vanshika-english">Vanshika - English</SelectItem>
+                    <SelectItem value="madhur-hindi">Madhur - Hindi</SelectItem>
+                    <SelectItem value="madhu-english">Madhu - English</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
