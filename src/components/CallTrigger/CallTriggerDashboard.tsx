@@ -2,8 +2,7 @@ import { useState } from "react";
 import { KPICards } from "./KPICards";
 import { SourceSection } from "./SourceSection";
 import { AbsentRepsTable } from "./AbsentRepsTable";
-import { OutletsTable } from "./OutletsTableFixed";
-import { OutletsNotInPJPTable } from "./OutletsNotInPJPTable";
+import { CombinedOutletsTable } from "./CombinedOutletsTable";
 import { CallSettingsPanel } from "./CallSettingsPanel";
 import { SummaryBar } from "./SummaryBar";
 import { LaunchProgressScreen } from "./LaunchProgressScreen";
@@ -218,16 +217,12 @@ export const CallTriggerDashboard = () => {
               onSelectionChange={setSelectedReps}
             />
 
-            <OutletsTable
-              outlets={inPJPOutlets}
-              selectedOutlets={selectedInPJPOutlets}
-              onSelectionChange={setSelectedInPJPOutlets}
-            />
-
-            <OutletsNotInPJPTable
-              outlets={notInPJPOutlets}
-              selectedOutlets={selectedNotInPJPOutlets}
-              onSelectionChange={setSelectedNotInPJPOutlets}
+            <CombinedOutletsTable
+              outlets={[...inPJPOutlets, ...notInPJPOutlets]}
+              selectedInPJPOutlets={selectedInPJPOutlets}
+              selectedNotInPJPOutlets={selectedNotInPJPOutlets}
+              onInPJPSelectionChange={setSelectedInPJPOutlets}
+              onNotInPJPSelectionChange={setSelectedNotInPJPOutlets}
             />
           </div>
 
