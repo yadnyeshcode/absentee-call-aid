@@ -165,6 +165,15 @@ export const CallTriggerDashboard = () => {
           absentCount={absentCount}
           totalRevenue={totalRevenue}
           onRecoveryRateChange={setRecoveryRate}
+          onQuickAction={(action) => {
+            if (action === 'ready') handleLaunch();
+            else if (action === 'recoverable') {
+              toast({
+                title: "Recovery Optimization",
+                description: "Use the slider below to adjust recovery expectations.",
+              });
+            }
+          }}
         />
 
         <SourceSection
