@@ -115,64 +115,6 @@ export const CallSettingsPanel = ({ onSettingsChange }: CallSettingsPanelProps) 
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label className="text-sm font-medium flex items-center gap-2">
-                  <Phone className="h-4 w-4" />
-                  Trunk Provider
-                </Label>
-                <Select value={settings.trunkProvider} onValueChange={(value) => updateSetting('trunkProvider', value)}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {trunkProviders.map((provider) => (
-                      <SelectItem key={provider.value} value={provider.value}>
-                        <div className="flex items-center justify-between w-full">
-                          <span>{provider.label}</span>
-                          <Badge variant="secondary" className="ml-2 text-xs">
-                            {provider.cps}
-                          </Badge>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium flex items-center gap-2">
-                    <MessageSquare className="h-4 w-4" />
-                    WhatsApp Pre-call
-                  </Label>
-                  <Switch
-                    checked={settings.whatsappPre}
-                    onCheckedChange={(checked) => updateSetting('whatsappPre', checked)}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium flex items-center gap-2">
-                    <MessageSquare className="h-4 w-4" />
-                    WhatsApp Post-call
-                  </Label>
-                  <Switch
-                    checked={settings.whatsappPost}
-                    onCheckedChange={(checked) => updateSetting('whatsappPost', checked)}
-                  />
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium flex items-center gap-2">
-                    <Mic className="h-4 w-4" />
-                    Call Recording
-                  </Label>
-                  <Switch
-                    checked={settings.recording}
-                    onCheckedChange={(checked) => updateSetting('recording', checked)}
-                  />
-                </div>
-              </div>
             </div>
           </div>
 
@@ -187,59 +129,68 @@ export const CallSettingsPanel = ({ onSettingsChange }: CallSettingsPanelProps) 
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-4">
                 <div className="space-y-4">
-                  {/* Pacing */}
+                  {/* SIP Trunk Provider */}
+                  <div className="space-y-2">
+                    <Label className="text-sm font-medium flex items-center gap-2">
+                      <Phone className="h-4 w-4" />
+                      SIP Trunk Provider
+                    </Label>
+                    <Select value={settings.trunkProvider} onValueChange={(value) => updateSetting('trunkProvider', value)}>
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {trunkProviders.map((provider) => (
+                          <SelectItem key={provider.value} value={provider.value}>
+                            <div className="flex items-center justify-between w-full">
+                              <span>{provider.label}</span>
+                              <Badge variant="secondary" className="ml-2 text-xs">
+                                {provider.cps}
+                              </Badge>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Notifications */}
                   <div className="space-y-3">
-                    <h5 className="text-sm font-medium text-foreground">Pacing</h5>
+                    <h5 className="text-sm font-medium text-foreground">Notifications</h5>
                     
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <Label className="text-xs">CPS (Calls Per Second)</Label>
-                        <Badge variant="secondary" className="text-xs">
-                          {trunkProviders.find(p => p.value === settings.trunkProvider)?.cps || "2 CPS"}
-                        </Badge>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <Label className="text-xs flex items-center gap-2">
-                        Concurrent Channels
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Info className="h-3 w-3 text-muted-foreground" />
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <p>Maximum simultaneous calls</p>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </Label>
-                      <div className="px-3">
-                        <Slider
-                          value={[settings.concurrentChannels]}
-                          onValueChange={([value]) => updateSetting('concurrentChannels', value)}
-                          min={1}
-                          max={50}
-                          step={1}
+                        <Label className="text-xs flex items-center gap-2">
+                          <MessageSquare className="h-4 w-4" />
+                          WhatsApp Pre-call
+                        </Label>
+                        <Switch
+                          checked={settings.whatsappPre}
+                          onCheckedChange={(checked) => updateSetting('whatsappPre', checked)}
                         />
-                        <div className="flex justify-between text-xs text-muted-foreground mt-1">
-                          <span>1</span>
-                          <span>{settings.concurrentChannels}</span>
-                          <span>50</span>
-                        </div>
                       </div>
-                    </div>
 
-                    <div className="space-y-2">
-                      <Label className="text-xs">Ring Time (seconds)</Label>
-                      <Input
-                        type="number"
-                        value={settings.ringTime}
-                        onChange={(e) => updateSetting('ringTime', parseInt(e.target.value))}
-                        className="h-8"
-                        min="10"
-                        max="60"
-                      />
+                      <div className="flex items-center justify-between">
+                        <Label className="text-xs flex items-center gap-2">
+                          <MessageSquare className="h-4 w-4" />
+                          WhatsApp Post-call
+                        </Label>
+                        <Switch
+                          checked={settings.whatsappPost}
+                          onCheckedChange={(checked) => updateSetting('whatsappPost', checked)}
+                        />
+                      </div>
+
+                      <div className="flex items-center justify-between">
+                        <Label className="text-xs flex items-center gap-2">
+                          <Mic className="h-4 w-4" />
+                          Call Recording
+                        </Label>
+                        <Switch
+                          checked={settings.recording}
+                          onCheckedChange={(checked) => updateSetting('recording', checked)}
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -293,48 +244,6 @@ export const CallSettingsPanel = ({ onSettingsChange }: CallSettingsPanelProps) 
                     </Select>
                   </div>
 
-                  {/* Compliance */}
-                  <div className="space-y-3">
-                    <h5 className="text-sm font-medium text-foreground flex items-center gap-2">
-                      <Shield className="h-4 w-4" />
-                      Compliance
-                    </h5>
-                    
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between">
-                        <Label className="text-xs">Respect DND</Label>
-                        <Switch
-                          checked={settings.dndRespect}
-                          onCheckedChange={(checked) => updateSetting('dndRespect', checked)}
-                        />
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <Label className="text-xs">Quiet Hours (10PM-8AM)</Label>
-                        <Switch
-                          checked={settings.quietHours}
-                          onCheckedChange={(checked) => updateSetting('quietHours', checked)}
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Cost Cap */}
-                  <div className="space-y-2">
-                    <Label className="text-xs flex items-center gap-2">
-                      <DollarSign className="h-3 w-3" />
-                      Cost Cap (₹)
-                    </Label>
-                    <Input
-                      type="number"
-                      value={settings.costCap}
-                      onChange={(e) => updateSetting('costCap', parseInt(e.target.value))}
-                      className="h-8"
-                      min="100"
-                      max="50000"
-                      step="100"
-                    />
-                  </div>
-
                   {/* Schedule */}
                   <div className="space-y-3">
                     <h5 className="text-sm font-medium text-foreground flex items-center gap-2">
@@ -360,21 +269,6 @@ export const CallSettingsPanel = ({ onSettingsChange }: CallSettingsPanelProps) 
                         className="h-8"
                       />
                     )}
-                  </div>
-
-                  {/* Language Fallback */}
-                  <div className="space-y-2">
-                    <Label className="text-xs">Language Fallback</Label>
-                    <Select value={settings.languageFallback} onValueChange={(value) => updateSetting('languageFallback', value)}>
-                      <SelectTrigger className="h-8">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="english">English</SelectItem>
-                        <SelectItem value="hindi">Hindi</SelectItem>
-                        <SelectItem value="disable">Disable</SelectItem>
-                      </SelectContent>
-                    </Select>
                   </div>
                 </div>
               </AccordionContent>

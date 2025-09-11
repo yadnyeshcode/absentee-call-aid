@@ -129,15 +129,7 @@ export const SourceSection = ({ onDataSource, onFiltersChange }: SourceSectionPr
           </TabsContent>
 
           <TabsContent value="manual" className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Button variant="outline" onClick={handleDownloadTemplate} className="h-auto p-6 flex-col gap-3">
-                <Download className="h-8 w-8 text-muted-foreground" />
-                <div className="text-center">
-                  <div className="font-medium">Download Template</div>
-                  <div className="text-sm text-muted-foreground">CSV format with sample data</div>
-                </div>
-              </Button>
-
+            <div className="space-y-4">
               <div className="relative">
                 <input
                   type="file"
@@ -151,6 +143,18 @@ export const SourceSection = ({ onDataSource, onFiltersChange }: SourceSectionPr
                     <div className="font-medium">Upload File</div>
                     <div className="text-sm text-muted-foreground">CSV or Excel format</div>
                   </div>
+                </Button>
+              </div>
+              
+              <div className="text-center">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={handleDownloadTemplate} 
+                  className="text-xs text-muted-foreground hover:text-foreground"
+                >
+                  <Download className="h-3 w-3 mr-1" />
+                  Download template
                 </Button>
               </div>
             </div>

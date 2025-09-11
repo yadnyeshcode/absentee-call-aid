@@ -17,7 +17,7 @@ interface SummaryBarProps {
   excludedOutlets: number;
   estimatedCost: number;
   dialLaunchETA: string;
-  campaignFinishETA: string;
+  operationFinishETA: string;
   onLaunch?: () => void;
   onSimulate?: () => void;
   onExport?: () => void;
@@ -30,7 +30,7 @@ export const SummaryBar = ({
   excludedOutlets,
   estimatedCost,
   dialLaunchETA,
-  campaignFinishETA,
+  operationFinishETA,
   onLaunch,
   onSimulate,
   onExport,
@@ -85,7 +85,7 @@ export const SummaryBar = ({
                   <TooltipTrigger asChild>
                     <div className="flex items-center gap-1">
                       <Clock className="h-4 w-4" />
-                      <span>Finish ETA: {campaignFinishETA}</span>
+                      <span>Finish ETA: {operationFinishETA}</span>
                       <Info className="h-3 w-3" />
                     </div>
                   </TooltipTrigger>
@@ -131,7 +131,7 @@ export const SummaryBar = ({
               className="flex items-center gap-2 px-8"
             >
               <Play className="h-4 w-4" />
-              {isLoading ? "Launching..." : "Launch Campaign"}
+              {isLoading ? "Launching..." : "Launch Operation"}
             </Button>
           </div>
         </div>
@@ -142,7 +142,7 @@ export const SummaryBar = ({
             <div className="flex items-center gap-2 text-warning">
               <AlertTriangle className="h-4 w-4" />
               <span className="text-sm font-medium">
-                Please select at least one outlet to launch the campaign
+                Please select at least one outlet to launch the operation
               </span>
             </div>
           </div>
@@ -153,7 +153,7 @@ export const SummaryBar = ({
             <div className="flex items-center gap-2 text-destructive">
               <AlertTriangle className="h-4 w-4" />
               <span className="text-sm font-medium">
-                High cost campaign (₹{estimatedCost.toLocaleString()}). Consider reducing the number of outlets or adjusting settings.
+                High cost operation (₹{estimatedCost.toLocaleString()}). Consider reducing the number of outlets or adjusting settings.
               </span>
             </div>
           </div>

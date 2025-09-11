@@ -99,7 +99,7 @@ export const CallTriggerDashboard = () => {
   const selectedOutletsCount = selectedOutlets.length;
   const estimatedCost = selectedOutletsCount * 2.5; // ₹2.5 per call
   const dialLaunchETA = "30 sec";
-  const campaignFinishETA = selectedOutletsCount > 0 ? `${Math.ceil(selectedOutletsCount / 2)} min` : "0 min";
+  const operationFinishETA = selectedOutletsCount > 0 ? `${Math.ceil(selectedOutletsCount / 2)} min` : "0 min";
 
   const handleLaunch = () => {
     if (selectedOutletsCount === 0) {
@@ -209,7 +209,7 @@ export const CallTriggerDashboard = () => {
         excludedOutlets={excludedOutlets.length}
         estimatedCost={estimatedCost}
         dialLaunchETA={dialLaunchETA}
-        campaignFinishETA={campaignFinishETA}
+        operationFinishETA={operationFinishETA}
         onLaunch={handleLaunch}
         onSimulate={handleSimulate}
         onExport={handleExport}
