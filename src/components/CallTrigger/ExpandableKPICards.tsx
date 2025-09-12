@@ -147,7 +147,7 @@ export const ExpandableKPICards = ({
     },
     {
       id: "ready",
-      title: "Ready to Launch (✅)",
+      title: "Ready to Launch (Ready to Launch 🚀)",
       value: "System Ready",
       icon: CheckCircle2,
       color: "text-emerald-600",
