@@ -31,12 +31,13 @@ const useAnimatedCounter = (end: number, duration: number = 2000) => {
   const [count, setCount] = useState(0);
   
   useEffect(() => {
-    let startTime: number;
-    let animationFrame: number;
+    let startTime: number | null = null;
+    let animationFrame: number | undefined;
     
     const animate = (currentTime: number) => {
-      if (!startTime) startTime = currentTime;
-      const progress = Math.min((currentTime - startTime) / duration, 1);
+      const base = startTime ?? currentTime;
+      if (startTime === null) startTime = currentTime;
+      const progress = Math.min((currentTime - base) / duration, 1);
       
       setCount(Math.floor(end * progress));
       
@@ -46,7 +47,9 @@ const useAnimatedCounter = (end: number, duration: number = 2000) => {
     };
     
     animationFrame = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationFrame);
+    return () => {
+      if (animationFrame !== undefined) cancelAnimationFrame(animationFrame);
+    };
   }, [end, duration]);
   
   return count;
