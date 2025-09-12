@@ -67,14 +67,6 @@ export const CombinedOutletsTable = ({
   const inPJPOutlets = filteredOutlets.filter(outlet => !outlet.notInPJP);
   const notInPJPOutlets = filteredOutlets.filter(outlet => outlet.notInPJP);
 
-  // Auto-select only PJP outlets when they appear
-  React.useEffect(() => {
-    if (inPJPOutlets.length > 0 && selectedInPJPOutlets.length === 0) {
-      const allInPJPIds = inPJPOutlets.map(outlet => outlet.id);
-      onInPJPSelectionChange(allInPJPIds);
-    }
-  }, [inPJPOutlets.length, selectedInPJPOutlets.length, onInPJPSelectionChange]);
-
   const handleSelectAll = () => {
     const allPJPSelected = selectedInPJPOutlets.length === inPJPOutlets.length;
     const allNotPJPSelected = selectedNotInPJPOutlets.length === notInPJPOutlets.length;

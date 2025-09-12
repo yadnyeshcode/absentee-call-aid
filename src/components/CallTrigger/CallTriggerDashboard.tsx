@@ -113,9 +113,13 @@ export const CallTriggerDashboard = () => {
 
   // Auto-select PJP outlets when reps are selected
   useEffect(() => {
-    const newInPJPOutlets = generateInPJPOutlets(mockSalesReps, selectedReps);
-    const newInPJPOutletIds = newInPJPOutlets.map(outlet => outlet.id);
-    setSelectedInPJPOutlets(newInPJPOutletIds);
+    if (selectedReps.length > 0) {
+      const newInPJPOutlets = generateInPJPOutlets(mockSalesReps, selectedReps);
+      const newInPJPOutletIds = newInPJPOutlets.map(outlet => outlet.id);
+      setSelectedInPJPOutlets(newInPJPOutletIds);
+    } else {
+      setSelectedInPJPOutlets([]);
+    }
   }, [selectedReps]);
 
   // Calculate metrics
