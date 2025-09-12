@@ -115,6 +115,7 @@ export const CallTriggerDashboard = () => {
   useEffect(() => {
     const newInPJPOutlets = generateInPJPOutlets(mockSalesReps, selectedReps);
     const newInPJPOutletIds = newInPJPOutlets.map(outlet => outlet.id);
+    console.log('[AutoSelect PJP] selectedReps:', selectedReps, 'PJP count:', newInPJPOutletIds.length);
     setSelectedInPJPOutlets(newInPJPOutletIds);
     
     // Clear non-PJP selections when reps change

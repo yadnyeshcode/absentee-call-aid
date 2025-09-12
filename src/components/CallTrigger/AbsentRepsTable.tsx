@@ -162,6 +162,7 @@ export const AbsentRepsTable = ({
                 <div className="col-span-1">
                   <Checkbox
                     checked={selectedReps.includes(rep.id)}
+                    onCheckedChange={() => handleSelectRep(rep.id)}
                     className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   />
                 </div>
