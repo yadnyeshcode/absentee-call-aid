@@ -124,6 +124,8 @@ export const CombinedOutletsTable = ({
         <div className="col-span-1">
           <Checkbox
             checked={isSelected}
+            onCheckedChange={() => handleSelectOutlet(outlet.id, isPJP)}
+            onClick={(e) => e.stopPropagation()}
             className={`data-[state=checked]:${isPJP ? 'bg-emerald-600 border-emerald-600' : 'bg-amber-600 border-amber-600'}`}
           />
         </div>
@@ -235,6 +237,7 @@ export const CombinedOutletsTable = ({
           >
             <Checkbox
               checked={totalSelected === totalOutlets && totalOutlets > 0}
+              onClick={(e) => { e.stopPropagation(); handleSelectAll(); }}
               className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
             />
             Select All ({totalOutlets})

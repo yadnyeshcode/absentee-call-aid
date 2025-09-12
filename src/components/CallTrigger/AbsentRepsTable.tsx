@@ -120,6 +120,7 @@ export const AbsentRepsTable = ({
             >
               <Checkbox
                 checked={selectedReps.length === sortedReps.length && sortedReps.length > 0}
+                onClick={(e) => { e.stopPropagation(); handleSelectAll(); }}
                 className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
               />
               Select All
@@ -163,6 +164,7 @@ export const AbsentRepsTable = ({
                   <Checkbox
                     checked={selectedReps.includes(rep.id)}
                     onCheckedChange={() => handleSelectRep(rep.id)}
+                    onClick={(e) => e.stopPropagation()}
                     className="data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                   />
                 </div>
