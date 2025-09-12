@@ -4,7 +4,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { User, MapPin, Building, Search, ChevronUp, ChevronDown } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { User, MapPin, Building, Search, ChevronUp, ChevronDown, Calendar as CalendarIcon } from "lucide-react";
 
 interface SalesRep {
   id: string;
@@ -36,6 +38,7 @@ export const AbsentRepsTable = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [sortField, setSortField] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
   const filteredReps = salesReps.filter(rep =>
     rep.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -112,6 +115,22 @@ export const AbsentRepsTable = ({
                 className="pl-10 w-64"
               />
             </div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="outline" size="sm" className="flex items-center gap-2">
+                  <CalendarIcon className="h-4 w-4" />
+                  Today
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="end">
+                <Calendar
+                  mode="single"
+                  selected={selectedDate}
+                  onSelect={(date) => date && setSelectedDate(date)}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
             <Button
               variant="outline"
               size="sm"

@@ -4,8 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Calendar } from "@/components/ui/calendar";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+
 import { 
   Building, 
   Phone, 
@@ -13,12 +13,12 @@ import {
   DollarSign,
   ShoppingCart,
   Star,
-  Calendar as CalendarIcon,
+  
   CheckCircle2,
   AlertCircle,
   Search
 } from "lucide-react";
-import { format } from "date-fns";
+
 
 interface Outlet {
   id: string;
@@ -49,7 +49,7 @@ export const CombinedOutletsTable = ({
   onInPJPSelectionChange,
   onNotInPJPSelectionChange
 }: CombinedOutletsTableProps) => {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filter outlets based on search term
@@ -125,8 +125,9 @@ export const CombinedOutletsTable = ({
         <div className="col-span-1">
           <Checkbox
             checked={isSelected}
-            onCheckedChange={() => handleSelectOutlet(outlet.id, isPJP)}
+            onCheckedChange={(checked) => handleSelectOutlet(outlet.id, isPJP)}
             onClick={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
             className={`data-[state=checked]:${isPJP ? 'bg-emerald-600 border-emerald-600' : 'bg-amber-600 border-amber-600'}`}
           />
         </div>
@@ -210,22 +211,6 @@ export const CombinedOutletsTable = ({
                 className="pl-10 w-64"
               />
             </div>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4" />
-                  Today
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="end">
-                <Calendar
-                  mode="single"
-                  selected={selectedDate}
-                  onSelect={(date) => date && setSelectedDate(date)}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
           </div>
         </div>
 
