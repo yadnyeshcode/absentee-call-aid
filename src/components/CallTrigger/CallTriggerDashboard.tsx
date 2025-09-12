@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { KPICards } from "./KPICards";
 import { SourceSection } from "./SourceSection";
 import { AbsentRepsTable } from "./AbsentRepsTable";
@@ -110,6 +110,13 @@ export const CallTriggerDashboard = () => {
   const [dataSource, setDataSource] = useState<'configured' | 'manual'>('configured');
   const [recoveryRate, setRecoveryRate] = useState(85);
   const { toast } = useToast();
+
+  // Auto-select PJP outlets when reps are selected
+  useEffect(() => {
+    const newInPJPOutlets = generateInPJPOutlets(mockSalesReps, selectedReps);
+    const newInPJPOutletIds = newInPJPOutlets.map(outlet => outlet.id);
+    setSelectedInPJPOutlets(newInPJPOutletIds);
+  }, [selectedReps]);
 
   // Calculate metrics
   const absentCount = mockSalesReps.length;
