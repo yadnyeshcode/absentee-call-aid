@@ -7,6 +7,7 @@ import { CallSettingsPanel } from "./CallSettingsPanel";
 import { SummaryBar } from "./SummaryBar";
 import { LaunchProgressScreen } from "./LaunchProgressScreen";
 import { useToast } from "@/hooks/use-toast";
+import salescodeLogoSvg from "@/assets/salescode-logo.svg";
 
 // Mock data for demonstration
 const mockSalesReps = [
@@ -181,13 +182,12 @@ export const CallTriggerDashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-32">
       <div className="container mx-auto p-6 space-y-8">
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-foreground mb-1">
-            Call Setup — Absent Reps
-          </h1>
-          <p className="text-sm text-muted-foreground max-w-xl mx-auto">
-            Trigger AI calls to recover revenue from missed outlet visits
-          </p>
+        <div className="mb-6">
+          <img 
+            src={salescodeLogoSvg} 
+            alt="Salescode" 
+            className="h-12 w-auto"
+          />
         </div>
 
         <KPICards
