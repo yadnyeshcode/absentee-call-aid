@@ -70,19 +70,21 @@ export const CombinedOutletsTable = ({
   const handleSelectAll = () => {
     const allPJPSelected = selectedInPJPOutlets.length === inPJPOutlets.length;
     const allNotPJPSelected = selectedNotInPJPOutlets.length === notInPJPOutlets.length;
+
+    const shouldDeselectAll = allPJPSelected && allNotPJPSelected;
+    console.log('[Outlets SelectAll]', { allPJPSelected, allNotPJPSelected, shouldDeselectAll });
     
-    if (allPJPSelected && allNotPJPSelected) {
-      // Deselect all
+    if (shouldDeselectAll) {
       onInPJPSelectionChange([]);
       onNotInPJPSelectionChange([]);
     } else {
-      // Select all
       onInPJPSelectionChange(inPJPOutlets.map(outlet => outlet.id));
       onNotInPJPSelectionChange(notInPJPOutlets.map(outlet => outlet.id));
     }
   };
 
   const handleSelectOutlet = (outletId: string, isPJP: boolean) => {
+    console.log('[Outlet Toggle]', { outletId, isPJP });
     if (isPJP) {
       if (selectedInPJPOutlets.includes(outletId)) {
         onInPJPSelectionChange(selectedInPJPOutlets.filter(id => id !== outletId));
@@ -97,7 +99,6 @@ export const CombinedOutletsTable = ({
       }
     }
   };
-
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'high': return 'text-destructive bg-destructive/10';
