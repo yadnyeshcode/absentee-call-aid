@@ -202,10 +202,11 @@ export const CallTriggerDashboard = () => {
               alt="Salescode" 
               className="h-12 w-auto"
             />
-            <h1 className="text-3xl font-bold text-foreground ml-auto">                  Sales Recovery Dashboard</h1>
           </div>
+          <h1 className="text-3xl font-bold text-foreground ml-auto">Sales Recovery Dashboard</h1>
         </div>
-
+    
+        {/* Rest of the content */}
         <ExpandableKPICards
           absentCount={absentCount}
           totalRevenue={totalRevenue}
