@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { KPICards } from "./KPICards";
+import { ExpandableKPICards } from "./ExpandableKPICards";
 import { SourceSection } from "./SourceSection";
 import { AbsentRepsTable } from "./AbsentRepsTable";
 import { CombinedOutletsTable } from "./CombinedOutletsTable";
@@ -206,19 +206,14 @@ export const CallTriggerDashboard = () => {
           </div>
         </div>
 
-        <KPICards
+        <ExpandableKPICards
           absentCount={absentCount}
           totalRevenue={totalRevenue}
+          salesReps={mockSalesReps}
+          selectedReps={selectedReps}
+          onSelectionChange={setSelectedReps}
           onRecoveryRateChange={setRecoveryRate}
-          onQuickAction={(action) => {
-            if (action === 'ready') handleLaunch();
-            else if (action === 'recoverable') {
-              toast({
-                title: "Recovery Optimization",
-                description: "Use the slider below to adjust recovery expectations.",
-              });
-            }
-          }}
+          onLaunchCampaign={handleLaunch}
         />
 
         <SourceSection
