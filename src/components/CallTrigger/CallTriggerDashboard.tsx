@@ -182,12 +182,15 @@ export const CallTriggerDashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-32">
       <div className="container mx-auto p-6 space-y-8">
-        <div className="mb-6">
-          <img 
-            src={salescodeLogoSvg} 
-            alt="Salescode" 
-            className="h-12 w-auto"
-          />
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <img 
+              src={salescodeLogoSvg} 
+              alt="Salescode" 
+              className="h-12 w-auto"
+            />
+            <h1 className="text-3xl font-bold text-foreground">Sales Recovery Dashboard</h1>
+          </div>
         </div>
 
         <KPICards
