@@ -74,7 +74,7 @@ export const SalesRepsList = ({
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-6">
           <div>
             <h2 className="text-xl font-semibold text-foreground mb-2">
-              Absent Sales Representatives
+              Sales Representatives
             </h2>
             <p className="text-sm text-muted-foreground">
               Select sales reps to trigger AI calls for their assigned outlets
