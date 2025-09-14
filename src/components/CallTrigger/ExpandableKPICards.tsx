@@ -198,7 +198,7 @@ export const ExpandableKPICards = ({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <Users className="h-5 w-5 text-amber-600" />
-              Absent Sales Representatives
+              Sales Representatives
             </DialogTitle>
           </DialogHeader>
           
