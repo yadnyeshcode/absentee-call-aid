@@ -203,7 +203,7 @@ export const CallTriggerDashboard = () => {
               className="h-12 w-auto"
             />
           </div>
-          <h1 className="text-3xl font-bold text-foreground ml-auto">Sales Recovery Dashboard</h1>
+          <h1 className="text-3xl font-bold text-foreground ml-auto">Call Trigger Dashboard</h1>
         </div>
     
         {/* Rest of the content */}
