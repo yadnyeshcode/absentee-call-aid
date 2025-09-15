@@ -194,6 +194,11 @@ export const CombinedOutletsTable = ({
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+              (selectedInPJPOutlets.length > 0 || selectedNotInPJPOutlets.length > 0) ? 'bg-primary text-primary-foreground' : 'border-2 border-muted-foreground text-muted-foreground'
+            }`}>
+              3
+            </div>
             <h3 className="text-lg font-semibold text-foreground">Outlets under Sales Rep</h3>
             <Badge variant="secondary" className="bg-primary/10 text-primary">
               <Building className="h-3 w-3 mr-1" />

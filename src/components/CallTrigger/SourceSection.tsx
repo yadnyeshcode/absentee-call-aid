@@ -62,7 +62,12 @@ export const SourceSection = ({ onDataSource, onFiltersChange }: SourceSectionPr
     <Card className="bg-card border-border/50 shadow-card">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-foreground">Data Source</h2>
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium">
+              1
+            </div>
+            <h2 className="text-lg font-semibold text-foreground">Data Source</h2>
+          </div>
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange}>

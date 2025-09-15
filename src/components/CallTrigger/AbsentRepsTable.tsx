@@ -104,7 +104,14 @@ export const AbsentRepsTable = ({
     <Card className="bg-card border-border/50 shadow-card">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-semibold text-foreground">Sales Representatives</h3>
+          <div className="flex items-center gap-3">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+              selectedReps.length > 0 ? 'bg-primary text-primary-foreground' : 'border-2 border-muted-foreground text-muted-foreground'
+            }`}>
+              2
+            </div>
+            <h3 className="text-lg font-semibold text-foreground">Sales Representatives</h3>
+          </div>
           <div className="flex items-center gap-4">
             <div className="relative">
               <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
