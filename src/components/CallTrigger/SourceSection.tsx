@@ -99,7 +99,7 @@ export const SourceSection = ({ onDataSource, onFiltersChange }: SourceSectionPr
                 <label className="text-sm font-medium text-foreground">Team</label>
                 <Select onValueChange={(value) => handleFilterChange('team', value)}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All teams" />
+                    <SelectValue placeholder="All channels" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="all">All channels</SelectItem>
