@@ -15,7 +15,6 @@ import {
   Pause, 
   Play, 
   Square, 
-  RotateCcw,
   Calendar,
   Clock,
   DollarSign,
@@ -44,7 +43,6 @@ interface LaunchProgressScreenProps {
   onPause?: () => void;
   onResume?: () => void;
   onStop?: () => void;
-  onRetryFailed?: () => void;
   onRescheduleOverflow?: () => void;
 }
 
@@ -55,7 +53,6 @@ export const LaunchProgressScreen = ({
   onPause,
   onResume,
   onStop,
-  onRetryFailed,
   onRescheduleOverflow
 }: LaunchProgressScreenProps) => {
   const [progress, setProgress] = useState({
@@ -289,16 +286,6 @@ export const LaunchProgressScreen = ({
             ))}
 
             <div className="flex flex-col gap-2">
-              <Button
-                variant="outline"
-                onClick={onRetryFailed}
-                disabled={progress.failed === 0}
-                className="flex items-center gap-2"
-              >
-                <RotateCcw className="h-4 w-4" />
-                Retry Failed ({progress.failed})
-              </Button>
-              
               <Button
                 variant="outline"
                 onClick={onRescheduleOverflow}
