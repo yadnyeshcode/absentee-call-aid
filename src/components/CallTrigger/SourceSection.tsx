@@ -62,12 +62,7 @@ export const SourceSection = ({ onDataSource, onFiltersChange }: SourceSectionPr
     <Card className="bg-card border-border/50 shadow-card">
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-medium">
-              1
-            </div>
-            <h2 className="text-lg font-semibold text-foreground">Data Source</h2>
-          </div>
+          <h2 className="text-lg font-semibold text-foreground">Data Source</h2>
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange}>
@@ -107,7 +102,7 @@ export const SourceSection = ({ onDataSource, onFiltersChange }: SourceSectionPr
                     <SelectValue placeholder="All teams" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All teams</SelectItem>
+                    <SelectItem value="all">All channels</SelectItem>
                     <SelectItem value="metro">Metro</SelectItem>
                     <SelectItem value="urban">Urban</SelectItem>
                     <SelectItem value="rural">Rural</SelectItem>
