@@ -6,6 +6,7 @@ import { CombinedOutletsTable } from "./CombinedOutletsTable";
 import { CallSettingsPanel } from "./CallSettingsPanel";
 import { SummaryBar } from "./SummaryBar";
 import { LaunchProgressScreen } from "./LaunchProgressScreen";
+import { StepGuidance } from "./StepGuidance";
 import { useToast } from "@/hooks/use-toast";
 import salescodeLogoSvg from "@/assets/salescode-logo.svg";
 
@@ -138,6 +139,13 @@ export const CallTriggerDashboard = () => {
   const dialLaunchETA = "30 sec";
   const operationFinishETA = totalSelectedOutlets > 0 ? `${Math.ceil(totalSelectedOutlets / 2)} min` : "0 min";
 
+  // Calculate current step for guidance
+  const getCurrentStep = () => {
+    if (totalSelectedOutlets > 0) return 4; // Completed all steps
+    if (selectedReps.length > 0) return 3; // On outlets step
+    return 2; // On sales rep step (data source is always configured)
+  };
+
   const handleLaunch = () => {
     if (totalSelectedOutlets === 0) {
       toast({
@@ -205,6 +213,8 @@ export const CallTriggerDashboard = () => {
           </div>
           <h1 className="text-3xl font-bold text-foreground ml-auto">Call Trigger Dashboard</h1>
         </div>
+
+        <StepGuidance currentStep={getCurrentStep()} />
     
         {/* Rest of the content */}
         <ExpandableKPICards
