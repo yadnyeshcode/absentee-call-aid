@@ -229,13 +229,15 @@ export const CallTriggerDashboard = () => {
               onSelectionChange={setSelectedReps}
             />
 
-            <CombinedOutletsTable
-              outlets={[...inPJPOutlets, ...notInPJPOutlets]}
-              selectedInPJPOutlets={selectedInPJPOutlets}
-              selectedNotInPJPOutlets={selectedNotInPJPOutlets}
-              onInPJPSelectionChange={setSelectedInPJPOutlets}
-              onNotInPJPSelectionChange={setSelectedNotInPJPOutlets}
-            />
+            {selectedReps.length > 0 && (
+              <CombinedOutletsTable
+                outlets={[...inPJPOutlets, ...notInPJPOutlets]}
+                selectedInPJPOutlets={selectedInPJPOutlets}
+                selectedNotInPJPOutlets={selectedNotInPJPOutlets}
+                onInPJPSelectionChange={setSelectedInPJPOutlets}
+                onNotInPJPSelectionChange={setSelectedNotInPJPOutlets}
+              />
+            )}
           </div>
 
           <div className="xl:col-span-1">
