@@ -100,7 +100,13 @@ export function AppSidebar() {
     >
       <SidebarContent className="bg-background border-r">
         <div className="p-6 border-b">
-          <div className="flex items-center gap-3">
+          <div 
+            className="flex items-center gap-3 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors"
+            onClick={() => {
+              const trigger = document.querySelector('[data-sidebar="trigger"]') as HTMLButtonElement;
+              if (trigger) trigger.click();
+            }}
+          >
             <div className="p-2 bg-primary/10 rounded-lg">
               <Megaphone className="h-6 w-6 text-primary" />
             </div>
