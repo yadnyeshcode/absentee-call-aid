@@ -6,7 +6,9 @@ import {
   MessageSquare, 
   Package, 
   Megaphone,
-  Calendar
+  Calendar,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 
@@ -84,7 +86,7 @@ const callTriggerScenarios = [
 ];
 
 export function AppSidebar() {
-  const { state } = useSidebar();
+  const { state, toggleSidebar } = useSidebar();
   const location = useLocation();
   const currentPath = location.pathname;
   const collapsed = state === "collapsed";
@@ -101,20 +103,26 @@ export function AppSidebar() {
       <SidebarContent className="bg-background border-r">
         <div className="p-6 border-b">
           <div 
-            className="flex items-center gap-3 cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors"
-            onClick={() => {
-              const trigger = document.querySelector('[data-sidebar="trigger"]') as HTMLButtonElement;
-              if (trigger) trigger.click();
-            }}
+            className="flex items-center justify-between cursor-pointer hover:bg-muted/30 rounded-lg p-2 -m-2 transition-colors group"
+            onClick={toggleSidebar}
+            title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Megaphone className="h-6 w-6 text-primary" />
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <Megaphone className="h-6 w-6 text-primary" />
+              </div>
+              {!collapsed && (
+                <div>
+                  <h2 className="text-lg font-semibold text-foreground">Call Triggers</h2>
+                  <p className="text-sm text-muted-foreground">AI-Powered Communication</p>
+                </div>
+              )}
             </div>
             {!collapsed && (
-              <div>
-                <h2 className="text-lg font-semibold text-foreground">Call Triggers</h2>
-                <p className="text-sm text-muted-foreground">AI-Powered Communication</p>
-              </div>
+              <ChevronLeft className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
+            )}
+            {collapsed && (
+              <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors absolute right-2" />
             )}
           </div>
         </div>
