@@ -71,8 +71,11 @@ export const LaunchProgressScreen = ({
     contactRate: 0,
     orders: 0,
     revenue: 0,
-    cost: 0,
-    roi: 0
+    avgCalls: 0,
+    aov: 0,
+    avgCallDuration: 0,
+    productiveCalls: 0,
+    cor: 0
   });
 
   const [callLogs, setCallLogs] = useState<CallLog[]>([]);
@@ -104,13 +107,24 @@ export const LaunchProgressScreen = ({
       });
 
       // Update KPIs
-      setKpis(prev => ({
-        contactRate: Math.min(prev.contactRate + Math.random() * 2, 85),
-        orders: prev.orders + Math.floor(Math.random() * 2),
-        revenue: prev.revenue + Math.floor(Math.random() * 5000),
-        cost: prev.cost + Math.floor(Math.random() * 50),
-        roi: prev.revenue > 0 ? ((prev.revenue - prev.cost) / prev.cost * 100) : 0
-      }));
+      setKpis(prev => {
+        const totalCalls = progress.completed + progress.failed + progress.live + progress.ringing;
+        const completedCalls = prev.orders + Math.floor(Math.random() * 2);
+        const newRevenue = prev.revenue + Math.floor(Math.random() * 5000);
+        const avgOrderValue = completedCalls > 0 ? newRevenue / completedCalls : 0;
+        const callToOrderRatio = totalCalls > 0 ? (completedCalls / totalCalls * 100) : 0;
+        
+        return {
+          contactRate: Math.min(prev.contactRate + Math.random() * 2, 85),
+          orders: completedCalls,
+          revenue: newRevenue,
+          avgCalls: Math.floor(Math.random() * 5) + 8, // 8-12 calls per hour
+          aov: avgOrderValue,
+          avgCallDuration: Math.floor(Math.random() * 60) + 120, // 2-3 minutes in seconds
+          productiveCalls: Math.floor(totalCalls * 0.6), // 60% productive calls
+          cor: callToOrderRatio
+        };
+      });
 
       // Add new call log entries
       if (Math.random() > 0.7) {
@@ -278,8 +292,11 @@ export const LaunchProgressScreen = ({
               { title: 'Contact Rate', value: `${kpis.contactRate.toFixed(1)}%`, icon: Users, color: 'text-primary' },
               { title: 'Orders', value: kpis.orders.toString(), icon: CheckCircle2, color: 'text-success' },
               { title: 'Revenue', value: `₹${kpis.revenue.toLocaleString()}`, icon: DollarSign, color: 'text-success' },
-              { title: 'Cost', value: `₹${kpis.cost.toLocaleString()}`, icon: DollarSign, color: 'text-destructive' },
-              { title: 'ROI', value: `${kpis.roi.toFixed(1)}%`, icon: TrendingUp, color: 'text-primary' }
+              { title: 'Avg Calls/Hr', value: kpis.avgCalls.toString(), icon: Phone, color: 'text-primary' },
+              { title: 'AOV', value: `₹${Math.floor(kpis.aov).toLocaleString()}`, icon: TrendingUp, color: 'text-primary' },
+              { title: 'Avg Duration', value: `${Math.floor(kpis.avgCallDuration / 60)}:${String(kpis.avgCallDuration % 60).padStart(2, '0')}`, icon: Clock, color: 'text-primary' },
+              { title: 'Productive Calls', value: kpis.productiveCalls.toString(), icon: Activity, color: 'text-success' },
+              { title: 'COR', value: `${kpis.cor.toFixed(1)}%`, icon: TrendingUp, color: 'text-primary' }
             ].map((metric) => (
               <Card key={metric.title} className="bg-card border-border/50 shadow-card">
                 <div className="p-4">
