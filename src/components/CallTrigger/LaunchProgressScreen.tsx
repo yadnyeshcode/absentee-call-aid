@@ -21,7 +21,9 @@ import {
   TrendingUp,
   Users,
   Activity,
-  Loader2
+  Loader2,
+  Minimize2,
+  X
 } from "lucide-react";
 
 interface CallLog {
@@ -43,6 +45,7 @@ interface LaunchProgressScreenProps {
   onPause?: () => void;
   onResume?: () => void;
   onStop?: () => void;
+  onMinimize?: () => void;
   onRescheduleOverflow?: () => void;
 }
 
@@ -53,6 +56,7 @@ export const LaunchProgressScreen = ({
   onPause,
   onResume,
   onStop,
+  onMinimize,
   onRescheduleOverflow
 }: LaunchProgressScreenProps) => {
   const [progress, setProgress] = useState({
@@ -194,6 +198,15 @@ export const LaunchProgressScreen = ({
               </div>
 
               <div className="flex items-center gap-3">
+                <Button
+                  variant="outline"
+                  onClick={onMinimize}
+                  className="flex items-center gap-2 bg-white/10 border-white/20 hover:bg-white/20 text-white"
+                >
+                  <Minimize2 className="h-4 w-4" />
+                  Minimize
+                </Button>
+
                 {!isPaused ? (
                   <Button
                     variant="secondary"
@@ -219,8 +232,8 @@ export const LaunchProgressScreen = ({
                   onClick={onStop}
                   className="flex items-center gap-2"
                 >
-                  <Square className="h-4 w-4" />
-                  Stop
+                  <X className="h-4 w-4" />
+                  Stop & Exit
                 </Button>
               </div>
             </div>

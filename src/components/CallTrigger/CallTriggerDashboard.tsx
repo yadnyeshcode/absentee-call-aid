@@ -7,6 +7,8 @@ import { CallSettingsPanel } from "./CallSettingsPanel";
 import { SummaryBar } from "./SummaryBar";
 import { LaunchProgressScreen } from "./LaunchProgressScreen";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Loader2, Activity, X } from "lucide-react";
 import salescodeLogoSvg from "@/assets/salescode-logo.svg";
 
 // Mock data for demonstration
@@ -106,6 +108,7 @@ export const CallTriggerDashboard = () => {
   const [selectedInPJPOutlets, setSelectedInPJPOutlets] = useState<string[]>([]);
   const [selectedNotInPJPOutlets, setSelectedNotInPJPOutlets] = useState<string[]>([]);
   const [isCallsActive, setIsCallsActive] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const [currentAgent, setCurrentAgent] = useState("");
   const [dataSource, setDataSource] = useState<'configured' | 'manual'>('configured');
   const [recoveryRate, setRecoveryRate] = useState(85);
@@ -159,11 +162,24 @@ export const CallTriggerDashboard = () => {
 
   const handleStop = () => {
     setIsCallsActive(false);
+    setIsMinimized(false);
     toast({
       title: "Campaign Stopped",
       description: "All active calls have been terminated.",
       variant: "destructive",
     });
+  };
+
+  const handleMinimize = () => {
+    setIsMinimized(true);
+    toast({
+      title: "Campaign Minimized",
+      description: "Campaign continues in background. Click the status bar to expand.",
+    });
+  };
+
+  const handleMaximize = () => {
+    setIsMinimized(false);
   };
 
   const handleSimulate = () => {
@@ -181,13 +197,14 @@ export const CallTriggerDashboard = () => {
   };
 
 
-  if (isCallsActive) {
+  if (isCallsActive && !isMinimized) {
     return (
       <LaunchProgressScreen
         isActive={isCallsActive}
         totalCalls={totalSelectedOutlets}
         currentAgent={currentAgent}
         onStop={handleStop}
+        onMinimize={handleMinimize}
       />
     );
   }
@@ -195,6 +212,45 @@ export const CallTriggerDashboard = () => {
   return (
     <div className="min-h-screen bg-background pb-32">
       <div className="container mx-auto p-6 space-y-8">
+        {/* Active Campaign Banner (when minimized) */}
+        {isCallsActive && isMinimized && (
+          <div 
+            className="bg-gradient-primary text-white p-4 rounded-lg shadow-glow cursor-pointer hover:shadow-xl transition-shadow"
+            onClick={handleMaximize}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  <Activity className="h-5 w-5" />
+                </div>
+                <div>
+                  <p className="font-semibold">Campaign Active - {currentAgent}</p>
+                  <p className="text-white/80 text-sm">Click to expand live dashboard</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-right">
+                  <p className="text-sm text-white/80">Total Calls</p>
+                  <p className="font-bold">{totalSelectedOutlets}</p>
+                </div>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleStop();
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <X className="h-4 w-4" />
+                  Stop
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
             <img 
